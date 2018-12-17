@@ -1,8 +1,12 @@
 package tacos.data;
 
+import org.springframework.data.repository.CrudRepository;
 import tacos.model.Order;
 
-public interface OrderRepository {
+import java.util.List;
 
-    Order save(Order order);
+public interface OrderRepository extends CrudRepository<Order, Long> {
+
+    List<Order> findByZip(String zip);
+
 }

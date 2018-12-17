@@ -48,7 +48,7 @@ public class OrderControllerTest {
     private Order order;
 
     @Before
-    public void setup(){
+    public void setup() {
         order = new Order();
 
         Taco design = new Taco();
@@ -74,14 +74,14 @@ public class OrderControllerTest {
     }
 
     @Test
-    public void testShowOrderForm() throws Exception{
+    public void testShowOrderForm() throws Exception {
         mockMvc.perform(get("/orders/current").sessionAttr("order", order))
                 .andExpect(status().isOk())
                 .andExpect(view().name("orderForm"));
     }
 
     @Test
-    public void processOrder() throws Exception{
+    public void processOrder() throws Exception {
         when(orderRepository.save(order))
                 .thenReturn(order);
 
