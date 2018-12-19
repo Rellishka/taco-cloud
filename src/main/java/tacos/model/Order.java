@@ -2,6 +2,7 @@ package tacos.model;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import tacos.security.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -48,6 +49,9 @@ public class Order {
 
     @ManyToMany(targetEntity = Taco.class)
     private final List<Taco> tacos = new ArrayList<>();
+
+    @ManyToOne
+    private User user;
 
     public void addDesign(Taco design){
         this.tacos.add(design);

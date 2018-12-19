@@ -2,6 +2,7 @@ package tacos.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -11,6 +12,7 @@ import tacos.data.TacoRepository;
 import tacos.model.Ingredient;
 import tacos.model.Order;
 import tacos.model.Taco;
+import tacos.security.User;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -44,6 +46,11 @@ public class DesignTacoController {
         return new Taco();
     }
 
+    @ModelAttribute(name = "user")
+    public User getUser(@AuthenticationPrincipal User user) {
+        return user;
+    }
+
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = new ArrayList<>();
@@ -56,7 +63,7 @@ public class DesignTacoController {
     }
 
     @GetMapping
-    public String showDesignForm(Model model) {
+    public String showDesignForm(Model model, @AuthenticationPrincipal User user) {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(ingredients::add);
         Ingredient.Type[] types = Ingredient.Type.values();
@@ -68,6 +75,7 @@ public class DesignTacoController {
         );
 
         model.addAttribute("design", new Taco());
+        //model.addAttribute("user", user);
         return "design";
     }
 
